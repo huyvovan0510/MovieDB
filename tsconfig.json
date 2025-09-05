@@ -12,7 +12,8 @@
       "@/stores/*": ["src/stores/*"],
       "@/theme/*": ["src/theme/*"],
       "@/utils/*": ["src/utils/*"],
-      "@/types/*": ["src/types/*"]
+      "@/types/*": ["src/types/*"],
+      "@/navigation/*": ["src/navigation/*"]
     }
   }
 }

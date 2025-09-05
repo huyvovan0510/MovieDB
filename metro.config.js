@@ -18,6 +18,7 @@ const config = {
       '@/theme': path.resolve(__dirname, 'src/theme'),
       '@/utils': path.resolve(__dirname, 'src/utils'),
       '@/types': path.resolve(__dirname, 'src/types'),
+      '@/navigation': path.resolve(__dirname, 'src/navigation'),
     },
   },
 };
