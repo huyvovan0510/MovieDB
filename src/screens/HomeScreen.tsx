@@ -1,12 +1,12 @@
-import { View, Text } from 'react-native';
+import { View } from 'react-native';
 import React from 'react';
-import { SimpleHeader } from '@/components';
+import { Accordion, SimpleHeader } from '@/components';
 
 const HomeScreen = () => {
   return (
     <View>
       <SimpleHeader />
-      <Text>HomeScreen</Text>
+      <Accordion title="Categories" />
     </View>
   );
 };
