@@ -5,3 +5,4 @@ export * from './Accordion';
 export * from './FilterComponent';
 export * from './Button';
 export * from './ListPlaholder';
+export * from './ScoreComponent';

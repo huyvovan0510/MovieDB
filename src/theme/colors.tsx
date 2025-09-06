@@ -1,7 +1,9 @@
 export const colors = {
   darkBlue: '#042541',
   black: '#000000',
+  black15: '#00000026',
   white: '#FFFFFF',
+  white70: '#FFFFFF70',
   grayLight: '#F8F8F8',
   gray: '#808080',
   grayDark: '#424242',
@@ -9,4 +11,7 @@ export const colors = {
   borderColor: '#E0E0E0',
   text: '#333333',
   textSecondary: '#999999',
+  greenLight: '#45FF8F',
+  yellowLight: '#D2D531',
+  redLight: '#DB2360',
 };

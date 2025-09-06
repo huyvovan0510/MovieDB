@@ -1,10 +1,11 @@
 import clientNetwork from './ClientNework';
-import { PopularMoviesResponse, PaginationParams } from '@/types';
+import { PopularMoviesResponse, PaginationParams, Movie } from '@/types';
 
 const API_ROUTES = {
   GET_NOW_PLAYING_MOVIES: '/movie/now_playing',
   GET_UPCOMING_MOVIES: '/movie/upcoming',
   GET_POPULAR_MOVIES: '/movie/popular',
+  GET_MOVIE_DETAIL: '/movie/{movie_id}',
 };
 
 export const getPopularMovies = async (
@@ -80,6 +81,14 @@ export const getUpcomingMovies = async (
   const response = await clientNetwork.get<PopularMoviesResponse>(
     API_ROUTES.GET_UPCOMING_MOVIES,
     { params: queryParams },
+  );
+
+  return response.data;
+};
+
+export const getMovieDetail = async (movieId: string): Promise<Movie> => {
+  const response = await clientNetwork.get<Movie>(
+    API_ROUTES.GET_MOVIE_DETAIL.replace('{movie_id}', movieId),
   );
 
   return response.data;

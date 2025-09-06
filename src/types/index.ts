@@ -14,6 +14,18 @@ export interface Movie {
   vote_average: number;
   vote_count: number;
   video: boolean;
+  status: string;
+  genres: {
+    id: number;
+    name: string;
+  }[];
+  budget: number;
+  belongs_to_collection: {
+    id: number;
+    name: string;
+    poster_path: string | null;
+    backdrop_path: string | null;
+  };
 }
 
 export interface TMDBResponse<T> {

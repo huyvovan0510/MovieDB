@@ -4,18 +4,21 @@ import { Movie } from '@/types';
 import { colors } from '@/theme/colors';
 import Keys from 'react-native-keys';
 import { formatDate } from '@/utils';
+import { navigate } from '@/navigation/navigation.services';
+import { APP_SCREEN } from '@/navigation/navigation.constant';
 
 interface MovieCardProps {
   movie: Movie;
-  onPress?: (movie: Movie) => void;
 }
 
-const MovieCard: React.FC<MovieCardProps> = ({ movie, onPress }) => {
+const MovieCard: React.FC<MovieCardProps> = ({ movie }) => {
   const imageUri = movie.poster_path
     ? `${Keys.IMAGE_URL}${movie.poster_path}`
     : null;
 
-  const handlePress = () => onPress?.(movie);
+  const handlePress = () => {
+    navigate(APP_SCREEN.MOVIE_DETAIL, { movieId: movie.id });
+  };
 
   return (
     <View style={styles.shadow}>
