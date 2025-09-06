@@ -1,3 +1,4 @@
-const ChevronDown = require('./chevron_down.svg');
+import ChevronDown from './chevron_down.svg';
+import ChevronRight from './chevron_right.svg';
 
-export { ChevronDown };
+export { ChevronDown, ChevronRight };

@@ -6,6 +6,10 @@ const {
 } = require('react-native-reanimated/metro-config');
 
 
+const defaultConfig = getDefaultConfig(__dirname);
+const { assetExts, sourceExts } = defaultConfig.resolver;
+
+
 /**
  * Metro configuration
  * https://reactnative.dev/docs/metro
@@ -14,7 +18,12 @@ const {
  */
 const config = {
   resetCache: true,
+  transformer: {
+    babelTransformerPath: require.resolve('react-native-svg-transformer'),
+  },
   resolver: {
+    assetExts: assetExts.filter(ext => ext !== 'svg'),
+    sourceExts: [...sourceExts, 'svg'],
     alias: {
       '@': path.resolve(__dirname, 'src'),
       '@/components': path.resolve(__dirname, 'src/components'),
@@ -25,11 +34,12 @@ const config = {
       '@/utils': path.resolve(__dirname, 'src/utils'),
       '@/types': path.resolve(__dirname, 'src/types'),
       '@/navigation': path.resolve(__dirname, 'src/navigation'),
+      '@/assets': path.resolve(__dirname, 'src/assets'),
     },
   },
 };
 
 module.exports = mergeConfig(
-  getDefaultConfig(__dirname),
+  defaultConfig,
   wrapWithReanimatedMetroConfig(config),
 );

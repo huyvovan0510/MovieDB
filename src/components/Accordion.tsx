@@ -1,6 +1,6 @@
-import { ChevronDown } from '@/assets/svg';
+import { ChevronRight } from '@/assets/svg';
 import { colors } from '@/theme/colors';
-import React from 'react';
+import React, { useEffect, useImperativeHandle, useState } from 'react';
 import {
   StyleSheet,
   View,
@@ -26,6 +26,9 @@ interface AccordionItemProps {
   duration?: number;
 }
 
+export interface AccordionRef {
+  handleToggle: () => void;
+}
 interface AccordionProps {
   title: string;
   children: React.ReactNode;
@@ -42,6 +45,7 @@ interface AccordionProps {
   leftIcon?: React.ReactNode;
   rightIcon?: React.ReactNode;
   inValid?: boolean;
+  ref?: React.RefObject<AccordionRef>;
 }
 
 function AccordionItem({
@@ -87,12 +91,12 @@ const ChevronIcon: React.FC<{ isExpanded: boolean; style?: ViewStyle }> = ({
   style,
 }) => {
   const animatedStyle = useAnimatedStyle(() => ({
-    transform: [{ rotate: withTiming(isExpanded ? '180deg' : '0deg') }],
+    transform: [{ rotate: withTiming(isExpanded ? '90deg' : '0deg') }],
   }));
 
   return (
     <Animated.View style={[styles.chevron, animatedStyle, style]}>
-      <ChevronDown />
+      <ChevronRight />
     </Animated.View>
   );
 };
@@ -109,15 +113,16 @@ export const Accordion: React.FC<AccordionProps> = ({
   duration = 300,
   disabled = false,
   leftIcon,
+  ref,
 }) => {
-  const [isExpandedState, setIsExpandedState] = React.useState(false);
+  const [isExpandedState, setIsExpandedState] = useState(false);
 
   // Use controlled or internal state
   const isExpanded =
     controlledIsExpanded !== undefined ? controlledIsExpanded : isExpandedState;
   const expandedSharedValue = useSharedValue(isExpanded);
 
-  React.useEffect(() => {
+  useEffect(() => {
     expandedSharedValue.value = isExpanded;
   }, [isExpanded, expandedSharedValue]);
 
@@ -134,6 +139,10 @@ export const Accordion: React.FC<AccordionProps> = ({
 
     onToggle?.(newExpandedState);
   };
+
+  useImperativeHandle(ref, () => ({
+    handleToggle,
+  }));
 
   return (
     <View style={[styles.container, containerStyle]}>
@@ -169,16 +178,24 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: colors.white,
     borderRadius: 8,
-    marginVertical: 4,
-    borderWidth: 1,
-    borderColor: 'transparent',
+    shadowColor: colors.black,
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+
+    elevation: 5,
+    borderTopWidth: 1,
+    borderColor: colors.borderColor,
   },
   header: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
     paddingHorizontal: 16,
-    paddingVertical: 12,
+    paddingVertical: 10,
 
     borderTopLeftRadius: 8,
     borderTopRightRadius: 8,

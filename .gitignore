@@ -73,3 +73,13 @@ yarn-error.log
 !.yarn/releases
 !.yarn/sdks
 !.yarn/versions
+
+
+# ... existing code ...
+
+# Configuration and Environment Files
+#
+keys.development.json
+keys.*.json
+*.env
+.env*
