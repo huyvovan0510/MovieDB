@@ -9,18 +9,24 @@ import {
 } from 'react-native';
 import React from 'react';
 
-import { SimpleHeader, ScoreComponent } from '@/components';
+import {
+  SimpleHeader,
+  ScoreComponent,
+  CastList,
+  RecommendationsList,
+} from '@/components';
 import { RootStackParamList } from '@/navigation/type';
 import { RouteProp, useRoute } from '@react-navigation/native';
 import { APP_SCREEN } from '@/navigation/navigation.constant';
 import { useQuery } from '@tanstack/react-query';
-import { getMovieDetail } from '@/services/movies.service';
+import { getMovieCredits, getMovieDetail } from '@/services/movies.service';
 import { colors } from '@/theme/colors';
 import { BookmarkIcon, ChevronLeftIcon } from 'react-native-heroicons/solid';
 import { goBack } from '@/navigation/navigation.services';
 import Keys from 'react-native-keys';
 import { converBudget, formatDate } from '@/utils';
 const { width: WIDTH_SCREEN } = Dimensions.get('window');
+
 export const LANGUAGE_FILTERS = {
   en: 'English',
   es: 'Spanish',
@@ -47,6 +53,16 @@ const MovieDetail = () => {
     queryKey: ['movieDetail', movieId],
     queryFn: () => getMovieDetail(movieId.toString()),
   });
+
+  const {
+    data: creditsData,
+    isLoading: creditsLoading,
+    error: creditsError,
+  } = useQuery({
+    queryKey: ['movieCredits', movieId],
+    queryFn: () => getMovieCredits(movieId.toString()),
+  });
+
   const title =
     data?.title?.length && data?.title?.length > 16
       ? data?.title.slice(0, 16).concat('...')
@@ -60,13 +76,20 @@ const MovieDetail = () => {
   const language =
     LANGUAGE_FILTERS[data?.original_language as keyof typeof LANGUAGE_FILTERS];
 
+  const director = creditsData?.crew.find(
+    crew => crew.department === 'Directing',
+  );
+  const writer = creditsData?.crew.find(crew => crew.department === 'Writing');
+
   const budget = data?.budget ? converBudget(data?.budget) : '';
   const relasDate = data?.release_date
     ? formatDate(data?.release_date, 'DD/MM/YYYY')
     : '';
   const displaingDate = `${relasDate} - ${budget}`;
 
-  if (isLoading) {
+  const loading = isLoading || creditsLoading;
+  const isError = error || creditsError;
+  if (loading) {
     return (
       <View style={styles.container}>
         <SimpleHeader />
@@ -77,7 +100,7 @@ const MovieDetail = () => {
     );
   }
 
-  if (error) {
+  if (isError) {
     return (
       <View style={styles.container}>
         <SimpleHeader />
@@ -141,10 +164,10 @@ const MovieDetail = () => {
                 />
               </View>
               <View style={styles.authorContainer}>
-                <Text style={styles.txtDirector}>{'Greta Gerwig '}</Text>
+                <Text style={styles.txtDirector}>{director?.name || ''}</Text>
                 <Text style={styles.roleText}>{'Director, Writer '}</Text>
                 <View style={styles.space} />
-                <Text style={styles.txtDirector}>{'Noah Baumbach '}</Text>
+                <Text style={styles.txtDirector}>{writer?.name || ''}</Text>
                 <Text style={styles.roleText}>{'Writer '}</Text>
               </View>
             </View>
@@ -159,6 +182,12 @@ const MovieDetail = () => {
             </Pressable>
           </View>
         </View>
+
+        {/* List Cast */}
+        <CastList castData={creditsData?.cast || []} />
+
+        {/* List Recommendations */}
+        <RecommendationsList movieId={movieId} />
       </ScrollView>
     </View>
   );
@@ -172,6 +201,7 @@ const styles = StyleSheet.create({
   },
   scrollView: {
     flex: 1,
+    backgroundColor: colors.white,
   },
   movieDetailContainer: {
     backgroundColor: colors.blueLight,

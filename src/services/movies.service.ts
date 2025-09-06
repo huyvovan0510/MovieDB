@@ -1,11 +1,18 @@
 import clientNetwork from './ClientNework';
-import { PopularMoviesResponse, PaginationParams, Movie } from '@/types';
+import {
+  PopularMoviesResponse,
+  PaginationParams,
+  Movie,
+  MovieCredits,
+} from '@/types';
 
 const API_ROUTES = {
   GET_NOW_PLAYING_MOVIES: '/movie/now_playing',
   GET_UPCOMING_MOVIES: '/movie/upcoming',
   GET_POPULAR_MOVIES: '/movie/popular',
   GET_MOVIE_DETAIL: '/movie/{movie_id}',
+  GET_MOVIE_CREDITS: '/movie/{movie_id}/credits',
+  GET_MOVIE_RECOMMENDATIONS: '/movie/{movie_id}/recommendations',
 };
 
 export const getPopularMovies = async (
@@ -89,6 +96,26 @@ export const getUpcomingMovies = async (
 export const getMovieDetail = async (movieId: string): Promise<Movie> => {
   const response = await clientNetwork.get<Movie>(
     API_ROUTES.GET_MOVIE_DETAIL.replace('{movie_id}', movieId),
+  );
+
+  return response.data;
+};
+
+export const getMovieCredits = async (
+  movieId: string,
+): Promise<MovieCredits> => {
+  const response = await clientNetwork.get<MovieCredits>(
+    API_ROUTES.GET_MOVIE_CREDITS.replace('{movie_id}', movieId),
+  );
+
+  return response.data;
+};
+
+export const getMovieRecommendations = async (
+  movieId: string,
+): Promise<PopularMoviesResponse> => {
+  const response = await clientNetwork.get<PopularMoviesResponse>(
+    API_ROUTES.GET_MOVIE_RECOMMENDATIONS.replace('{movie_id}', movieId),
   );
 
   return response.data;

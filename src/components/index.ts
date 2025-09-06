@@ -6,3 +6,6 @@ export * from './FilterComponent';
 export * from './Button';
 export * from './ListPlaholder';
 export * from './ScoreComponent';
+export * from './CastCard';
+export * from './CastList';
+export * from './RecommendationsList';
