@@ -80,6 +80,8 @@ yarn-error.log
 # Configuration and Environment Files
 #
 
+# API Keys and sensitive configuration
+keys.development.json
 
 *.env
 .env*

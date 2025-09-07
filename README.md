@@ -1,8 +1,52 @@
 This is a new [**React Native**](https://reactnative.dev) project, bootstrapped using [`@react-native-community/cli`](https://github.com/react-native-community/cli).
 
+# MovieDB App
+
+A React Native movie database application that allows users to browse movies, view details, and manage their watchlist using The Movie Database (TMDB) API.
+
+## Prerequisites
+
+Before running the app, you need to set up your TMDB API credentials.
+
+### Step 1: Get TMDB API Credentials
+
+1. Visit [The Movie Database (TMDB)](https://www.themoviedb.org/)
+2. Create an account or sign in
+3. Go to your [API Settings](https://www.themoviedb.org/settings/api)
+4. Request an API key (v3 auth)
+5. Once approved, you'll receive:
+   - **API Key** (v3 auth)
+   - **Access Token** (v4 auth)
+   - **Account ID** (found in your account settings)
+
+### Step 2: Configure API Keys
+
+1. Open the `keys.development.json` file in the root directory
+2. Replace the empty values with your actual credentials:
+
+```json
+{
+    "secure": {
+      "ACCOUNT_ID": "your_account_id_here",
+      "API_KEY": "your_api_key_here",
+      "ACCESS_TOKEN": "your_access_token_here"
+    },
+    "public": {
+        "BASE_URL": "https://api.themoviedb.org/3",
+        "IMAGE_URL": "https://image.tmdb.org/t/p/w500"
+    }
+}
+```
+
+> **Important**: Never commit your actual API keys to version control. The `keys.development.json` file should be added to `.gitignore` to keep your credentials secure.
+
+### Step 3: Verify Configuration
+
+Make sure your `keys.development.json` file contains valid credentials before proceeding to the next steps.
+
 # Getting Started
 
-> **Note**: Make sure you have completed the [Set Up Your Environment](https://reactnative.dev/docs/set-up-your-environment) guide before proceeding.
+> **Note**: Make sure you have completed the [Set Up Your Environment](https://reactnative.dev/docs/set-up-your-environment) guide and configured your API keys before proceeding.
 
 ## Step 1: Start Metro
 
