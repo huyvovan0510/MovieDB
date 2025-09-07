@@ -83,3 +83,10 @@ export interface Crew {
   department: string;
   job: string;
 }
+
+export interface Profile {
+  username: string;
+  name: string;
+
+  id: number;
+}

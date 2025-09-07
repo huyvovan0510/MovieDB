@@ -9,3 +9,5 @@ export * from './ScoreComponent';
 export * from './CastCard';
 export * from './CastList';
 export * from './RecommendationsList';
+export * from './ProfileSection';
+export * from './WatchList';

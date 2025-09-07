@@ -21,10 +21,16 @@ import { APP_SCREEN } from '@/navigation/navigation.constant';
 import { useQuery } from '@tanstack/react-query';
 import { getMovieCredits, getMovieDetail } from '@/services/movies.service';
 import { colors } from '@/theme/colors';
-import { BookmarkIcon, ChevronLeftIcon } from 'react-native-heroicons/solid';
+import {
+  BookmarkIcon,
+  ChevronLeftIcon,
+  TrashIcon,
+} from 'react-native-heroicons/solid';
 import { goBack } from '@/navigation/navigation.services';
 import Keys from 'react-native-keys';
 import { converBudget, formatDate } from '@/utils';
+import { useWatchlistStore } from '@/stores/watchList/watchlist.store';
+import { Movie } from '@/types';
 const { width: WIDTH_SCREEN } = Dimensions.get('window');
 
 export const LANGUAGE_FILTERS = {
@@ -46,14 +52,15 @@ type MovieDetailRouteProp = RouteProp<
   typeof APP_SCREEN.MOVIE_DETAIL
 >;
 
-const MovieDetail = () => {
+const MovieDetailScreen = () => {
   const { params } = useRoute<MovieDetailRouteProp>();
   const { movieId } = params || {};
   const { data, isLoading, error } = useQuery({
     queryKey: ['movieDetail', movieId],
     queryFn: () => getMovieDetail(movieId.toString()),
   });
-
+  const { addToWatchlist, isInWatchlist, removeFromWatchlist } =
+    useWatchlistStore();
   const {
     data: creditsData,
     isLoading: creditsLoading,
@@ -86,6 +93,8 @@ const MovieDetail = () => {
     ? formatDate(data?.release_date, 'DD/MM/YYYY')
     : '';
   const displaingDate = `${relasDate} - ${budget}`;
+  const isAdded = isInWatchlist(movieId);
+  console.log("\x1b[35;1m' ~ isAdded:", isAdded);
 
   const loading = isLoading || creditsLoading;
   const isError = error || creditsError;
@@ -111,6 +120,13 @@ const MovieDetail = () => {
     );
   }
 
+  const handleAddToWatchlist = () => {
+    if (isAdded) {
+      removeFromWatchlist(movieId);
+    } else {
+      addToWatchlist(data as Movie);
+    }
+  };
   return (
     <View style={styles.container}>
       <SimpleHeader />
@@ -176,24 +192,30 @@ const MovieDetail = () => {
             </Text>
             <Text style={styles.overviewLabel}>{'Overview'}</Text>
             <Text style={styles.overviewText}>{data?.overview}</Text>
-            <Pressable style={styles.addWatchlistButton}>
-              <BookmarkIcon size={24} color={colors.white} />
-              <Text style={styles.txtReadMore}>{'Add to watchlist'}</Text>
+            <Pressable
+              style={styles.addWatchlistButton}
+              onPress={handleAddToWatchlist}
+            >
+              {!isAdded ? (
+                <BookmarkIcon size={24} color={colors.white} />
+              ) : (
+                <TrashIcon size={24} color={colors.white} />
+              )}
+              <Text style={styles.txtReadMore}>
+                {isAdded ? 'Remove from watchlist' : 'Add to watchlist'}
+              </Text>
             </Pressable>
           </View>
         </View>
 
-        {/* List Cast */}
         <CastList castData={creditsData?.cast || []} />
-
-        {/* List Recommendations */}
         <RecommendationsList movieId={movieId} />
       </ScrollView>
     </View>
   );
 };
 
-export { MovieDetail };
+export { MovieDetailScreen };
 
 const styles = StyleSheet.create({
   container: {

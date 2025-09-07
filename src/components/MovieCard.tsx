@@ -6,12 +6,14 @@ import Keys from 'react-native-keys';
 import { formatDate } from '@/utils';
 import { navigate } from '@/navigation/navigation.services';
 import { APP_SCREEN } from '@/navigation/navigation.constant';
+import { XMarkIcon } from 'react-native-heroicons/solid';
 
 interface MovieCardProps {
   movie: Movie;
+  onPressRemove?: (movieId: number) => void;
 }
 
-const MovieCard: React.FC<MovieCardProps> = ({ movie }) => {
+const MovieCard: React.FC<MovieCardProps> = ({ movie, onPressRemove }) => {
   const imageUri = movie.poster_path
     ? `${Keys.IMAGE_URL}${movie.poster_path}`
     : null;
@@ -23,6 +25,15 @@ const MovieCard: React.FC<MovieCardProps> = ({ movie }) => {
   return (
     <View style={styles.shadow}>
       <Pressable style={styles.container} onPress={handlePress}>
+        {onPressRemove && (
+          <Pressable
+            style={styles.onRemoveIcon}
+            onPress={() => onPressRemove?.(movie.id)}
+          >
+            <XMarkIcon size={24} color={colors.text} />
+          </Pressable>
+        )}
+
         {imageUri ? (
           <Image source={{ uri: imageUri }} style={styles.poster} />
         ) : (
@@ -95,6 +106,11 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontWeight: '400',
     marginTop: 18,
+  },
+  onRemoveIcon: {
+    position: 'absolute',
+    top: 10,
+    right: 10,
   },
 });
 

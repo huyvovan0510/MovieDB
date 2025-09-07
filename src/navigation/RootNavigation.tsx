@@ -5,8 +5,8 @@ import {
   createBottomTabNavigator,
 } from '@react-navigation/bottom-tabs';
 import { NavigationContainer } from '@react-navigation/native';
-import { HomeScreen, MovieDetail } from '@/screens';
-import WatchList from '@/screens/WatchList';
+import { HomeScreen, MovieDetailScreen, WatchListScreen } from '@/screens';
+
 import { APP_SCREEN, COMMON_SCREEN_OPTIONS } from './navigation.constant';
 import { RootStackParamList } from './type';
 import { setNavigatorRef } from './navigation.services';
@@ -25,7 +25,7 @@ const MainTab = () => {
       tabBar={renderCustomTab}
     >
       <Tab.Screen name={APP_SCREEN.HOME} component={HomeScreen} />
-      <Tab.Screen name={APP_SCREEN.WATCH_LIST} component={WatchList} />
+      <Tab.Screen name={APP_SCREEN.WATCH_LIST} component={WatchListScreen} />
     </Tab.Navigator>
   );
 };
@@ -35,7 +35,10 @@ const RootNavigation = () => {
     <NavigationContainer<RootStackParamList> ref={ref => setNavigatorRef(ref)}>
       <Stack.Navigator screenOptions={COMMON_SCREEN_OPTIONS}>
         <Stack.Screen name={APP_SCREEN.MAIN_TAB} component={MainTab} />
-        <Stack.Screen name={APP_SCREEN.MOVIE_DETAIL} component={MovieDetail} />
+        <Stack.Screen
+          name={APP_SCREEN.MOVIE_DETAIL}
+          component={MovieDetailScreen}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );
