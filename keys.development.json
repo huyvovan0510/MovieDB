@@ -1,0 +1,11 @@
+{
+    "secure": {
+      "ACCOUNT_ID":"",
+      "API_KEY": "",
+      "ACCESS_TOKEN": ""
+    },
+    "public": {
+        "BASE_URL": "https://api.themoviedb.org/3",
+        "IMAGE_URL": "https://image.tmdb.org/t/p/w500"
+    }
+}

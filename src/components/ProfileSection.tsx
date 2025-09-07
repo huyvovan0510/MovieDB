@@ -12,7 +12,7 @@ import { getProfile } from '@/services/profile.service';
 import { Profile } from '@/types';
 import { colors } from '@/theme/colors';
 import { goBack } from '@/navigation/navigation.services';
-
+import Keys from 'react-native-keys';
 const ProfileSection = memo(() => {
   const {
     data: profile,
@@ -20,7 +20,7 @@ const ProfileSection = memo(() => {
     error,
   } = useQuery<Profile>({
     queryKey: ['profile'],
-    queryFn: () => getProfile('22288053'),
+    queryFn: () => getProfile(Keys.secureFor('ACCOUNT_ID')),
   });
 
   const getInitials = (name: string) => {

@@ -79,7 +79,7 @@ yarn-error.log
 
 # Configuration and Environment Files
 #
-keys.development.json
-keys.*.json
+
+
 *.env
 .env*
