@@ -42,6 +42,7 @@ export interface PaginationParams {
   language?: string;
   region?: string;
   sort_by?: string;
+  query?: string;
 }
 
 export interface InfiniteMoviesData {

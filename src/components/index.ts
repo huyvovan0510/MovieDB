@@ -11,3 +11,4 @@ export * from './CastList';
 export * from './RecommendationsList';
 export * from './ProfileSection';
 export * from './WatchList';
+export * from './SearchComponent';

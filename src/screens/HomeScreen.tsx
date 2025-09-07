@@ -1,11 +1,12 @@
 import { FlashList, ListRenderItem } from '@shopify/flash-list';
-import React from 'react';
+import React, { useRef, useState } from 'react';
 import {
   FilterComponent,
   SimpleHeader,
   MovieCard,
   Button,
   ListPlaceholder,
+  SearchComponent,
 } from '@/components';
 import { colors } from '@/theme/colors';
 import { useCategoryStore } from '@/stores';
@@ -25,6 +26,7 @@ import {
 import { ArchiveBoxXMarkIcon } from 'react-native-heroicons/solid';
 
 const HomeScreen = () => {
+  const [search, setSearch] = useState('');
   const {
     categories,
     selectedCategory,
@@ -47,11 +49,8 @@ const HomeScreen = () => {
     category: selectedCategory?.value as MovieCategoryEnum,
     language: 'en-US',
     sort_by: selectedShortFilter?.value as ShortEnum,
+    query: search,
   });
-
-  const handleMoviePress = (movie: Movie) => {
-    console.log('Movie pressed:', movie.title);
-  };
 
   const handleLoadMore = () => {
     if (canLoadMore) {
@@ -64,7 +63,7 @@ const HomeScreen = () => {
   };
 
   const renderMovie: ListRenderItem<Movie> = ({ item }) => {
-    return <MovieCard movie={item} onPress={handleMoviePress} />;
+    return <MovieCard movie={item} />;
   };
 
   const renderFooter = () => {
@@ -116,6 +115,7 @@ const HomeScreen = () => {
           selectedValue={selectedShortFilter?.value}
           label={selectedShortFilter?.label || 'AZ'}
         />
+        <SearchComponent onSearch={setSearch} />
 
         {isPending ? (
           <ListPlaceholder />

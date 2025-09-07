@@ -23,8 +23,6 @@ const filterOptions: FilterDropdownData[] = [
   { label: 'Release Date', value: 'release_date' },
 ];
 
-const ItemSeparator = () => <View style={styles.separator} />;
-
 const WatchList: React.FC = () => {
   const { movies, removeFromWatchlist } = useWatchlistStore();
   const [sortBy, setSortBy] = useState<SortOption>('rating');
@@ -154,7 +152,6 @@ const WatchList: React.FC = () => {
         renderItem={renderMovieItem}
         showsVerticalScrollIndicator={false}
         contentContainerStyle={styles.listContainer}
-        ItemSeparatorComponent={ItemSeparator}
         ListEmptyComponent={renderEmptyState}
         extraData={sortedMovies}
       />
@@ -247,9 +244,7 @@ const styles = StyleSheet.create({
   movieItemContainer: {
     marginBottom: 16,
   },
-  separator: {
-    height: 16,
-  },
+
   emptyContainer: {
     flex: 1,
     justifyContent: 'center',

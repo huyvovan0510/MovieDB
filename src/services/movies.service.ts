@@ -13,6 +13,7 @@ const API_ROUTES = {
   GET_MOVIE_DETAIL: '/movie/{movie_id}',
   GET_MOVIE_CREDITS: '/movie/{movie_id}/credits',
   GET_MOVIE_RECOMMENDATIONS: '/movie/{movie_id}/recommendations',
+  SEARCH_MOVIES: '/search/movie',
 };
 
 export const getPopularMovies = async (
@@ -118,5 +119,30 @@ export const getMovieRecommendations = async (
     API_ROUTES.GET_MOVIE_RECOMMENDATIONS.replace('{movie_id}', movieId),
   );
 
+  return response.data;
+};
+
+export const getSearchMovies = async (
+  params: PaginationParams & { query?: string },
+): Promise<PopularMoviesResponse> => {
+  const { page = 1, language = 'en-US', region, query } = params;
+
+  const queryParams: Record<string, string | number> = {
+    page,
+    language,
+  };
+
+  if (region) {
+    queryParams.region = region;
+  }
+
+  if (query) {
+    queryParams.query = query;
+  }
+
+  const response = await clientNetwork.get<PopularMoviesResponse>(
+    API_ROUTES.SEARCH_MOVIES,
+    { params: queryParams },
+  );
   return response.data;
 };

@@ -27,6 +27,7 @@ const MovieCard: React.FC<MovieCardProps> = ({ movie, onPressRemove }) => {
       <Pressable style={styles.container} onPress={handlePress}>
         {onPressRemove && (
           <Pressable
+            hitSlop={50}
             style={styles.onRemoveIcon}
             onPress={() => onPressRemove?.(movie.id)}
           >

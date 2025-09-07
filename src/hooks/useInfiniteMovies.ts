@@ -3,6 +3,7 @@ import {
   getPopularMovies,
   getNowPlayingMovies,
   getUpcomingMovies,
+  getSearchMovies,
 } from '@/services/movies.service';
 import { PopularMoviesResponse, PaginationParams, Movie } from '@/types';
 
@@ -19,6 +20,7 @@ const movieServiceMap = {
   popular: getPopularMovies,
   now_playing: getNowPlayingMovies,
   upcoming: getUpcomingMovies,
+  search: getSearchMovies,
 };
 
 export const useInfiniteMovies = (options: UseInfiniteMoviesOptions) => {
@@ -28,9 +30,10 @@ export const useInfiniteMovies = (options: UseInfiniteMoviesOptions) => {
     region,
     enabled = true,
     sort_by,
+    query,
   } = options;
 
-  const queryFn = movieServiceMap[category];
+  const queryFn = query ? getSearchMovies : movieServiceMap[category];
 
   const {
     data,
@@ -43,13 +46,14 @@ export const useInfiniteMovies = (options: UseInfiniteMoviesOptions) => {
     refetch,
     isPending,
   } = useInfiniteQuery({
-    queryKey: ['movies', category, { language, region, sort_by }],
+    queryKey: ['movies', category, { language, region, sort_by, query }],
     queryFn: ({ pageParam = 1 }) =>
       queryFn({
         page: pageParam,
         language,
         region,
         sort_by,
+        query,
       }),
     getNextPageParam: (lastPage: PopularMoviesResponse) => {
       if (lastPage.page < lastPage.total_pages) {
